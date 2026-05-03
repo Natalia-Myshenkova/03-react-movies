@@ -6,11 +6,13 @@ import { useState } from "react";
 import MovieGrid from "../MovieGrid/MovieGrid";
 import Loader from "../Loader/Loader";
 import MovieModal from "../MovieModal/MovieModal";
+import ErrorMessage from "../ErrorMessage/ErrorMessage";
 import { fetchMovies } from "../../services/movieService";
 
 export default function App() {
   const [movies, setMovies] = useState<Movie[]>([]);
   const [isLoading, setIsLoading] = useState(false);
+  const [isError, setIsError] = useState(false);
   const [selectedMovie, setSelectedMovie] = useState<Movie | null>(null);
   const [isModalOpen, setIsModalOpen] = useState(false);
 
@@ -23,6 +25,7 @@ export default function App() {
     try {
       setMovies([]);
       setIsLoading(true);
+      setIsError(false);
 
       const results = await fetchMovies(query);
 
@@ -32,6 +35,7 @@ export default function App() {
         toast.error("No movies found for your request.");
       }
     } catch {
+      setIsError(true);
       toast.error("Something went wrong. Please try again.");
     } finally {
       setIsLoading(false);
@@ -56,11 +60,13 @@ export default function App() {
         }}
       />
 
-      <SearchBar onSearch={handleSearch} />
+      <SearchBar onSubmit={handleSearch} />
 
       {isLoading && <Loader />}
 
-      {movies.length > 0 && (
+      {isError && <ErrorMessage />}
+
+      {!isLoading && !isError && movies.length > 0 && (
         <MovieGrid movies={movies} onSelect={handleSelectMovie} />
       )}
 

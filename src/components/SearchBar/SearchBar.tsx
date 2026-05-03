@@ -2,10 +2,10 @@ import toast from 'react-hot-toast';
 import styles from "./SearchBar.module.css";
 
 interface SearchBarProps {
-  onSearch: (query: string) => void;
+  onSubmit: (query: string) => void;
 }
 
-export default function SearchBar({ onSearch }: SearchBarProps)  {
+export default function SearchBar({ onSubmit }: SearchBarProps)  {
 
 
   const notify = () => toast.error('Please enter your search query.');
@@ -16,7 +16,7 @@ export default function SearchBar({ onSearch }: SearchBarProps)  {
     if(query.trim() === '') {
       notify()
     } else {
-      onSearch(query.trim());
+      onSubmit(query.trim());
     }
   };
 
