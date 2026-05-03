@@ -3,7 +3,7 @@ import type { Movie } from "../types/movie";
 
 const BASE_URL = "https://api.themoviedb.org/3/search/movie";
 
-export interface MoviesResponse {
+interface MoviesResponse {
   results: Movie[];
 }
 export async function fetchMovies(query: string): Promise<Movie[]> {
