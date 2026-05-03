@@ -9,6 +9,4 @@ export interface Movie {
 }
 
 
- export interface MoviesResponse {
-  results: Movie[];
-}
+
